@@ -1,0 +1,7 @@
+<%= form_for Comment.new do |f| %>
+    <%= f.hidden_field :post_id, value: @post.id%>
+    <%= f.label :content%>
+    <%= f.text_field :content%>
+    <%= f.collection_select :user, User.all, :id, :username%>
+    <%= f.submit%>
+<%end%>
