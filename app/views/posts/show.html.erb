@@ -8,10 +8,27 @@
 
 <h3>Comment content</h3>
 <% @post.comments.each do |comment|%>
-    <p><%= comment.content%></p><br>
+    <p><%= comment.user.username%> says: <%= comment.content%></p><br>
 <%end%>
 
 <h3>Users</h3>
 <% @post.users.uniq.each do |user|%>
     <p><%= link_to user.username, user_path(user)%></p>
+<%end%>
+
+<%= form_for Comment.new do |f|%>
+    <%= f.hidden_field :post_id, value: @post.id%>
+    <%= f.label :content%>
+    <%= f.text_field :content%><br>
+
+    <h4>Select a User</h4>
+    <%= f.collection_select :user_id, User.all, :id, :username, include_blank: true%><br>
+
+    <h4>Enter Username</h4>
+    <%= f.fields_for :user, User.new do |user|%>
+        <%= user.label :username%>
+        <%= user.text_field :username%><br>
+    <%end%>
+
+    <%= f.submit%>
 <%end%>
